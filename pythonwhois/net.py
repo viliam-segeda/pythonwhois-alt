@@ -75,9 +75,11 @@ def get_whois_raw(domain, server="", previous=None, rfc3490=True, never_cut=Fals
 	server_list.append(target_server)
 	
 	# Ignore redirects from registries who publish the registrar data themselves
-	if target_server not in ('whois.nic.xyz',):
+	if target_server not in ('whois.nic.xyz','whois.donuts.co'):
 		for line in [x.strip() for x in response.splitlines()]:
-			match = re.match("(refer|whois server|referral url|whois server|registrar whois):\s*([^\s]+\.[^\s]+)", line, re.IGNORECASE)
+			print(line)
+			#match = re.match("(refer|whois server|referral url|whois server|registrar whois):\s*([a-zA-Z0-9]+\.[a-zA-Z0-9]+)", line, re.IGNORECASE)
+			match = re.match("(refer|whois server|referral url|whois server|registrar whois):\s*([a-zA-Z0-9\.]+)", line, re.IGNORECASE)
 			if match is not None:
 				referal_server = match.group(2)
 				if referal_server != server and "://" not in referal_server: # We want to ignore anything non-WHOIS (eg. HTTP) for now.
