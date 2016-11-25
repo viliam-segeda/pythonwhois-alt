@@ -21,6 +21,7 @@ def get_whois_raw(domain, server="", previous=None, rfc3490=True, never_cut=Fals
 		".qpon": "whois.nic.qpon",
 		".sohu": "whois.gtld.knet.cn",
 		".tokyo": "whois.nic.tokyo",
+    ".yokohama": "whois.gmoregistry.net",
 		".trade": "whois.nic.trade",
 		".webcam": "whois.nic.webcam",
 		".xn--rhqv96g": "whois.nic.xn--rhqv96g",
@@ -78,8 +79,8 @@ def get_whois_raw(domain, server="", previous=None, rfc3490=True, never_cut=Fals
 	if target_server not in ('whois.nic.xyz','whois.donuts.co'):
 		for line in [x.strip() for x in response.splitlines()]:
 			print(line)
-			#match = re.match("(refer|whois server|referral url|whois server|registrar whois):\s*([a-zA-Z0-9]+\.[a-zA-Z0-9]+)", line, re.IGNORECASE)
-			match = re.match("(refer|whois server|referral url|whois server|registrar whois):\s*([a-zA-Z0-9\.]+)", line, re.IGNORECASE)
+			match = re.match("(refer|whois server|referral url|whois server|registrar whois):\s*([a-zA-Z0-9]+\.[a-zA-Z0-9]+)", line, re.IGNORECASE)
+			#match = re.match("(refer|whois server|referral url|whois server|registrar whois):\s*([a-zA-Z0-9\.]+)", line, re.IGNORECASE)
 			if match is not None:
 				referal_server = match.group(2)
 				if referal_server != server and "://" not in referal_server: # We want to ignore anything non-WHOIS (eg. HTTP) for now.
@@ -102,6 +103,7 @@ def get_root_server(domain):
 
 def whois_request(domain, server, port=43):
 	sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	#print("Connecting to %s" % server)
 	sock.connect((server, port))
 	sock.send(("%s\r\n" % domain).encode("utf-8"))
 	buff = b""
