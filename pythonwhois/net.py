@@ -79,7 +79,7 @@ def get_whois_raw(domain, server="", previous=None, rfc3490=True, never_cut=Fals
 	if target_server not in ('whois.nic.xyz','whois.donuts.co'):
 		for line in [x.strip() for x in response.splitlines()]:
 			#match = re.match("(refer|whois server|referral url|whois server|registrar whois):\s*([a-zA-Z0-9]+\.[a-zA-Z0-9]+)", line, re.IGNORECASE)
-			match = re.match("(refer|whois server|referral url|whois server|registrar whois):\s*([a-zA-Z0-9\.]+)", line, re.IGNORECASE)
+			match = re.match("(refer|whois server|referral url|whois server|registrar whois):\s*([a-zA-Z0-9\.-]+)", line, re.IGNORECASE)
 			if match is not None:
 				referal_server = match.group(2)
 				#print("Referral server: %s" % referal_server)
